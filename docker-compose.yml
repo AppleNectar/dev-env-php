@@ -1,0 +1,87 @@
+version: "3.8"
+
+volumes:
+  mysql-data:
+    driver: local
+
+services:
+  app:
+    build:
+      context: ./docker/app
+      args:
+        CONTAINERS_TIMEZONE: ${CONTAINERS_TIMEZONE}
+        LANG: ${LANG}
+        WEB_USER_NAME: ${WEB_USER_NAME}
+        WEB_USER_UID: ${WEB_USER_UID}
+        WEB_USER_GROUP: ${WEB_USER_GROUP}
+        WEB_USER_GID: ${WEB_USER_GID}
+        ENABLE_XDBUG: ${ENABLE_XDBUG}
+    volumes:
+      - type: bind
+        source: ./app
+        target: /var/www/html/app
+
+  web:
+    build:
+      context: ./docker/web
+      args:
+        CONTAINERS_TIMEZONE: ${CONTAINERS_TIMEZONE}
+        LANG: ${LANG}
+        WEB_USER_NAME: ${WEB_USER_NAME}
+        WEB_USER_UID: ${WEB_USER_UID}
+        WEB_USER_GROUP: ${WEB_USER_GROUP}
+        WEB_USER_GID: ${WEB_USER_GID}
+    ports:
+      - target: 80
+        published: 8080
+        protocol: tcp
+        mode: host
+      - target: 443
+        published: 8443
+        protocol: tcp
+        mode: host
+    volumes:
+      - type: bind
+        source: ./app
+        target: /var/www/html/app
+      - type: bind
+        source: ./container-conf/default.conf
+        target: /etc/nginx/conf.d/default.conf
+    depends_on:
+      - app
+  
+  db:
+    build:
+      context: ./docker/db
+      args:
+        CONTAINERS_TIMEZONE: ${CONTAINERS_TIMEZONE}
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DEFAULT_DB: ${MYSQL_DEFAULT_DB}
+    ports:
+      - target: 3306
+        published: 3306
+        protocol: tcp
+        mode: host
+    volumes:
+      - type: volume
+        source: mysql-data
+        target: /var/lib/mysql
+        volume:
+          nocopy: true
+
+  kvs:
+    build:
+      context: ./docker/kvs
+      args:
+        CONTAINERS_TIMEZONE: ${CONTAINERS_TIMEZONE}
+        REDIS_AUTH_PASS: ${REDIS_AUTH_PASS}
+    ports:
+      - target: 6379
+        published: 6379
+        protocol: tcp
+        mode: host
+    sysctls:
+      net.core.somaxconn: 511
