@@ -3,6 +3,8 @@ version: "3.8"
 volumes:
   mysql-data:
     driver: local
+  mail-data:
+    driver: local
 
 services:
   app:
@@ -85,3 +87,19 @@ services:
         mode: host
     sysctls:
       net.core.somaxconn: 511
+
+  smtp:
+    image: mailhog/mailhog:v1.0.1
+    ports:
+      - target: 8025
+        published: 8025
+        protocol: tcp
+        mode: host
+      - target: 1025
+        published: 1025
+        protocol: tcp
+        mode: host
+    volumes:
+      - type: volume
+        source: mail-data
+        target: /tmp
