@@ -52,7 +52,7 @@ RUN groupadd -g ${WEB_USER_GID} ${WEB_USER_GROUP} \
 # * Comment out the user and group settings to remove the warning when running as non-root.
 # * Instead, set listen.group to the group of the executing user.
 RUN cp -i /usr/local/etc/php/php.ini-development /usr/local/etc/php/php.ini \
-    && sed -i -e "s|;date.timezone =|date.timezone = ${CONTAINERS_TIMEZONE}|g" /usr/local/etc/php/php.ini \
+    && sed -i -e "s|^;date.timezone =|date.timezone = ${CONTAINERS_TIMEZONE}|g" /usr/local/etc/php/php.ini \
     && sed -i -e "/^user = /s/user/;user/g" /usr/local/etc/php-fpm.d/www.conf \
     && sed -i -e "/^group = /s/group/;group/g" /usr/local/etc/php-fpm.d/www.conf \
     && cp -i /usr/local/etc/php-fpm.d/www.conf /usr/local/etc/php-fpm.d/zzz-www.conf \
