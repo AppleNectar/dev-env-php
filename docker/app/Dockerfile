@@ -9,6 +9,7 @@ ARG WEB_USER_NAME
 ARG WEB_USER_UID
 ARG WEB_USER_GROUP
 ARG WEB_USER_GID
+ARG WEB_USER_SHELL
 ARG ENABLE_XDBUG
 
 ENV TZ ${CONTAINERS_TIMEZONE}
@@ -43,7 +44,7 @@ ENV LC_ALL ${LANG}
 
 # Create dev user and application directory
 RUN groupadd -g ${WEB_USER_GID} ${WEB_USER_GROUP} \
-    && useradd -u ${WEB_USER_UID} -g ${WEB_USER_GROUP} -G www-data -s /sbin/nologin -m ${WEB_USER_NAME} \
+    && useradd -u ${WEB_USER_UID} -g ${WEB_USER_GROUP} -G www-data -s ${WEB_USER_SHELL} -m ${WEB_USER_NAME} \
     && mkdir /var/www/html/app \
     && chown -R ${WEB_USER_NAME}:${WEB_USER_GROUP} /var/www/html \ 
     && chmod 775 /var/www/html/app

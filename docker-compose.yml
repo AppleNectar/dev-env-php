@@ -17,7 +17,8 @@ services:
         WEB_USER_UID: ${WEB_USER_UID}
         WEB_USER_GROUP: ${WEB_USER_GROUP}
         WEB_USER_GID: ${WEB_USER_GID}
-        ENABLE_XDBUG: ${ENABLE_XDBUG}
+        WEB_USER_SHELL: ${WEB_USER_SHELL:-/usr/sbin/nologin}
+        ENABLE_XDBUG: ${ENABLE_XDBUG:-false}
     volumes:
       - type: bind
         source: ./app
@@ -33,6 +34,7 @@ services:
         WEB_USER_UID: ${WEB_USER_UID}
         WEB_USER_GROUP: ${WEB_USER_GROUP}
         WEB_USER_GID: ${WEB_USER_GID}
+        WEB_USER_SHELL: ${WEB_USER_SHELL:-/usr/sbin/nologin}
     ports:
       - target: 80
         published: 8080
