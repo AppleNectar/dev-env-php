@@ -45,5 +45,10 @@ In that case, copy `/docker/web/conf/default.conf` to any location in your proje
 - Use the official image of redis 6.2.5
 - This container does not persist data
 
+### smtp
+- Use the official image of mailhog 1.0.1
+- It can be used as a destination for sending test mails via SMTP (open http://localhost:8025 to check the mail)
+- The data is persisted by `mail-data` volume
+
 ## License
 MIT
