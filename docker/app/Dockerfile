@@ -4,7 +4,7 @@ LABEL maintainer="AppleNectar"
 SHELL [ "/bin/bash", "-oeux", "pipefail", "-c" ]
 
 ARG CONTAINERS_TIMEZONE
-ARG LANG
+ARG CONTAINERS_LANG
 ARG WEB_USER_NAME
 ARG WEB_USER_UID
 ARG WEB_USER_GROUP
@@ -36,11 +36,11 @@ RUN apt update \
     && rm -rf /var/lib/apt/lists/*
 
 # OS language setting
-RUN sed -i -E "s/# (${LANG})/\1/" /etc/locale.gen \
-    && locale-gen ${LANG} \
-    && update-locale LANG=${LANG}
+RUN sed -i -E "s/# (${CONTAINERS_LANG})/\1/" /etc/locale.gen \
+    && locale-gen ${CONTAINERS_LANG} \
+    && update-locale LANG=${CONTAINERS_LANG}
 
-ENV LC_ALL ${LANG}
+ENV LC_ALL ${CONTAINERS_LANG}
 
 # Create dev user and application directory
 RUN groupadd -g ${WEB_USER_GID} ${WEB_USER_GROUP} \

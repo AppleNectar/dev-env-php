@@ -12,7 +12,7 @@ services:
       context: ./docker/app
       args:
         CONTAINERS_TIMEZONE: ${CONTAINERS_TIMEZONE}
-        LANG: ${LANG}
+        CONTAINERS_LANG: ${CONTAINERS_LANG}
         WEB_USER_NAME: ${WEB_USER_NAME}
         WEB_USER_UID: ${WEB_USER_UID}
         WEB_USER_GROUP: ${WEB_USER_GROUP}
@@ -29,7 +29,7 @@ services:
       context: ./docker/web
       args:
         CONTAINERS_TIMEZONE: ${CONTAINERS_TIMEZONE}
-        LANG: ${LANG}
+        CONTAINERS_LANG: ${CONTAINERS_LANG}
         WEB_USER_NAME: ${WEB_USER_NAME}
         WEB_USER_UID: ${WEB_USER_UID}
         WEB_USER_GROUP: ${WEB_USER_GROUP}
