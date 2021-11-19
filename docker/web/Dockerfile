@@ -42,7 +42,14 @@ RUN groupadd -g ${WEB_USER_GID} ${WEB_USER_GROUP} \
     && chmod 775 /var/www/html/app
 
 # Make self-certificate files and DH key parameter file for localhost
+# * Want to get a browser certificate warning?
+#   1. Execute command: docker compose cp web:/home/dev/rootCA.pfx ./
+#   2. Install rootCA.pfx created in the project root on the system that uses the browser.
 RUN mkcert -install \
+    && cd /root/.local/share/mkcert/ \
+    && openssl pkcs12 -export -inkey rootCA-key.pem -in rootCA.pem -out rootCA.pfx -passin pass:"" -passout pass:"" \
+    && cp rootCA.pfx /home/${WEB_USER_NAME}/ \
+    && chown ${WEB_USER_NAME}:${WEB_USER_GROUP} /home/${WEB_USER_NAME}/rootCA.pfx \
     && mkdir /etc/nginx/certs \
     && mkcert -cert-file /etc/nginx/certs/server.crt -key-file /etc/nginx/certs/server.key localhost 127.0.0.1 \
     && openssl dhparam -out /etc/nginx/certs/dhparam.pem 2048 \
@@ -76,6 +83,11 @@ RUN NGINX_CONF_PATH=/etc/nginx/nginx.conf \
     && chown -R ${WEB_USER_NAME}:${WEB_USER_GROUP} /etc/nginx/conf.d \
     && touch /var/run/nginx.pid \
     && chown -R ${WEB_USER_NAME}:${WEB_USER_GROUP} /var/run/nginx.pid
+
+# Install node.js
+COPY --from=node:lts-buster-slim /usr/local/bin /usr/local/bin
+COPY --from=node:lts-buster-slim /usr/local/lib /usr/local/lib
+COPY --from=node:lts-buster-slim /opt /opt
 
 USER ${WEB_USER_NAME}
 
