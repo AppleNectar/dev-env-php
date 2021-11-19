@@ -13,7 +13,24 @@ Do you want to change the document root under `app` directory?
 In that case, copy `/docker/web/conf/default.conf` to any location in your project directory, change the `root` directive, and bind-mount it as `/etc/nginx/conf.d/default.conf`.
 4. Execute the `docker compose up -d` command.
 5. Create an `index.php` file and put `<?php php phpinfo();` to file in the `app` directory of your project root, and access `https://localhost:8443` from your browser! (Please ignore the certificate error as it is due to self-certification and continue)
-5. Let's develop it freely!:)
+5. Let's develop it freely!😎
+
+### Self certification SSL error
+
+Want to turn off self-certification error?  
+You can work around this by installing the certificate in your local machine from web container.
+
+1. Run ``docker cp `docker-compose ps -q {web_container_service_name}`:/home/{web_user_name}/rootCA.pfx ./`` in project root directory.  
+   If the service name and user name of the container are default, you can run `copy_pfx.sh` instead.
+2. Import the `rootCA.pfx` file created in the project root directory into your browser.
+
+However, this needs to be done for each container, and if the container is destroyed and rebuilt, it needs to be done again.  
+If you want to replace them with certificates you have created yourself, mount them in the web container.  
+
+| type | path |
+| --- | --- |
+| CRT | /etc/nginx/certs/server.crt |
+| KEY | /etc/nginx/certs/server.key |
 
 ## Containers detail
 
