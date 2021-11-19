@@ -12,7 +12,7 @@ It's only for local development, please don't use it in a server environment (EC
 Do you want to change the document root under `app` directory?  
 In that case, copy `/docker/web/conf/default.conf` to any location in your project directory, change the `root` directive, and bind-mount it as `/etc/nginx/conf.d/default.conf`.
 4. Execute the `docker compose up -d` command.
-5. Create an `index.php` file and put `<?php php phpinfo();` to file in the `app` directory of your project root, and access `https://localhost:8443` from your browser! (Please ignore the certificate error as it is due to self-certification and continue)
+5. Create an `index.php` file and put `<?php phpinfo();` to file in the `app` directory of your project root, and access `https://localhost:8443` from your browser! (Please ignore the certificate error as it is due to self-certification and continue)
 5. Let's develop it freely!😎
 
 ### Self certification SSL error
