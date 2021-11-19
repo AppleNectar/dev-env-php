@@ -1,3 +1,6 @@
 .env
+/.idea
 /app
 /container-conf
+docker-compose.override.yml
+rootCA.pfx

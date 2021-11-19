@@ -1,4 +1,4 @@
-version: "3.8"
+version: "3.7"
 
 volumes:
   mysql-data:
@@ -48,9 +48,6 @@ services:
       - type: bind
         source: ./app
         target: /var/www/html/app
-      # - type: bind
-      #   source: ./container-conf/default.conf
-      #   target: /etc/nginx/conf.d/default.conf
     depends_on:
       - app
   
