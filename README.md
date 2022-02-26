@@ -18,7 +18,8 @@ In that case, copy `/docker/web/conf/default.conf` to any location in your proje
 ### Self certification SSL error
 
 Want to turn off self-certification error?  
-You can work around this by installing the certificate in your local machine from web container.
+You can work around this by installing the certificate in your local machine from web container.  
+**This is not recommended as it will dirty the host.**
 
 1. Run ``docker cp `docker-compose ps -q {web_container_service_name}`:/home/{web_user_name}/rootCA.pfx ./`` in project root directory.  
    If the service name and user name of the container are default, you can run `copy_pfx.sh` instead.
@@ -38,7 +39,7 @@ If you want to replace them with certificates you have created yourself, mount t
 - In the `app` and `web` containers, the system language is changed based on the `.env` configuration value.
 
 ### app
-- Use the official image of PHP 8.0
+- Use the official image of PHP 8.1
 - Xdebug extension is valid (Listen on port `9003` | Default ide key `IDEKEY` | Start with request trigger)
 - PHP's extension that Laravel depends on is installed
 - Composer is installed in system global (from composer official image)
