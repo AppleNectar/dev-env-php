@@ -14,15 +14,15 @@ ARG WEB_USER_SHELL
 ENV TZ ${CONTAINERS_TIMEZONE}
 
 # Package update and install
-RUN apt update \
-    && apt -y upgrade  \
-    && apt -y install \
+RUN apt-get update \
+    && apt-get -y upgrade  \
+    && apt-get -y install \
         wget \
         libnss3-tools \
         zip \
         unzip \
         locales \
-    && apt clean \
+    && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
     && wget -O /usr/bin/mkcert https://github.com/FiloSottile/mkcert/releases/download/v1.4.3/mkcert-v1.4.3-linux-amd64 \
     && chmod +x /usr/bin/mkcert

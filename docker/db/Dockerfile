@@ -1,4 +1,4 @@
-FROM mysql:8.0.26
+FROM mysql:8.0
 LABEL maintainer="AppleNectar"
 
 SHELL [ "/bin/bash", "-oeux", "pipefail", "-c" ]
@@ -8,9 +8,9 @@ ARG CONTAINERS_TIMEZONE
 ENV TZ ${CONTAINERS_TIMEZONE}
 
 # Package update and install
-RUN apt update \
-    && apt -y upgrade  \
-    && apt clean \
+RUN apt-get update \
+    && apt-get -y upgrade  \
+    && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
 RUN echo "use mysql;" > /docker-entrypoint-initdb.d/0_timezone.sql \

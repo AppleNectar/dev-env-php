@@ -1,4 +1,4 @@
-FROM php:8.0-fpm-buster
+FROM php:8.1-fpm-bullseye
 LABEL maintainer="AppleNectar"
 
 SHELL [ "/bin/bash", "-oeux", "pipefail", "-c" ]
@@ -18,9 +18,9 @@ ENV TZ ${CONTAINERS_TIMEZONE}
 COPY --from=composer:2.0 /usr/bin/composer /usr/bin/composer
 
 # Package update and install
-RUN apt update \
-    && apt -y upgrade  \
-    && apt -y install \
+RUN apt-get update \
+    && apt-get -y upgrade  \
+    && apt-get -y install \
         git \
         libonig-dev \
         libedit-dev \
@@ -32,7 +32,7 @@ RUN apt update \
         zip \
         unzip \
         locales \
-    && apt clean \
+    && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
 # OS language setting

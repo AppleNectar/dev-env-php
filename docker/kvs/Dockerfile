@@ -1,4 +1,4 @@
-FROM redis:6.2.5-buster
+FROM redis:6.2-bullseye
 LABEL maintainer="AppleNectar"
 
 SHELL [ "/bin/bash", "-oeux", "pipefail", "-c" ]
@@ -10,9 +10,9 @@ ENV TZ ${CONTAINERS_TIMEZONE}
 ENV REDIS_AUTH_PASS ${REDIS_AUTH_PASS}
 
 # Package update and install
-RUN apt update \
-    && apt -y upgrade  \
-    && apt clean \
+RUN apt-get update \
+    && apt-get -y upgrade  \
+    && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
 CMD ["sh", "-c", "exec redis-server --requirepass \"${REDIS_AUTH_PASS}\""]
