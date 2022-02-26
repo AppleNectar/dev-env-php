@@ -55,12 +55,12 @@ If you want to replace them with certificates you have created yourself, mount t
 - The `app` directory in the project root will be bind mounted as `/var/www/html/app` (This is the default document root)
 
 ### db
-- Use the official image of MySQL 8.0.26
+- Use the official image of MySQL 8.0
 - The root password, initial database name, default username, and user password are passed to the container as environment variables (The actual values are defined in the .env file)
 - The data is persisted by `mysql-data` volume
 
 ### kvs
-- Use the official image of redis 6.2.5
+- Use the official image of redis 6.2
 - This container does not persist data
 
 ### smtp
