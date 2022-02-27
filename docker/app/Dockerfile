@@ -15,7 +15,7 @@ ARG ENABLE_XDBUG
 ENV TZ ${CONTAINERS_TIMEZONE}
 
 # Install composer
-COPY --from=composer:2.0 /usr/bin/composer /usr/bin/composer
+COPY --from=composer:2.2 /usr/bin/composer /usr/bin/composer
 
 # Package update and install
 RUN apt-get update \
