@@ -7,6 +7,31 @@ volumes:
     driver: local
 
 services:
+#  app-web:
+#    build:
+#      context: ./docker/app-web
+#      args:
+#        CONTAINERS_TIMEZONE: ${CONTAINERS_TIMEZONE}
+#        CONTAINERS_LANG: ${CONTAINERS_LANG}
+#        WEB_USER_NAME: ${WEB_USER_NAME}
+#        WEB_USER_UID: ${WEB_USER_UID}
+#        WEB_USER_GROUP: ${WEB_USER_GROUP}
+#        WEB_USER_GID: ${WEB_USER_GID}
+#        WEB_USER_SHELL: ${WEB_USER_SHELL:-/usr/sbin/nologin}
+#        ENABLE_XDBUG: ${ENABLE_XDBUG:-false}
+#    environment:
+#      APACHE_RUN_USER : ${WEB_USER_NAME}
+#      APACHE_RUN_GROUP : ${WEB_USER_GROUP}
+#    volumes:
+#      - type: bind
+#        source: ./app
+#        target: /var/www/html/app
+#    ports:
+#      - target: 80
+#        published: 8080
+#        protocol: tcp
+#        mode: host
+
   app:
     build:
       context: ./docker/app
