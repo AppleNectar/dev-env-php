@@ -46,7 +46,7 @@ ENV LC_ALL ${CONTAINERS_LANG}
 RUN groupadd -g ${WEB_USER_GID} ${WEB_USER_GROUP} \
     && useradd -u ${WEB_USER_UID} -g ${WEB_USER_GROUP} -G www-data -s ${WEB_USER_SHELL} -m ${WEB_USER_NAME} \
     && mkdir /var/www/html/app \
-    && chown -R ${WEB_USER_NAME}:${WEB_USER_GROUP} /var/www/html \ 
+    && chown -R ${WEB_USER_NAME}:${WEB_USER_GROUP} /var/www/html \
     && chmod 775 /var/www/html/app
 
 # Create php.ini and fpm config
