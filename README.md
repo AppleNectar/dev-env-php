@@ -1,7 +1,7 @@
 # Docker environment for PHP application
 
 Docker container stack for a web service development using PHP.  
-The stack consists of Nginx / php-fpm / MySQL / Redis, each container is based on Debina.  
+The stack consists of Nginx / php-fpm / MySQL / Redis, each container is based on Debian.  
 It's only for local development, please don't use it in a server environment (EC2, ECS, etc).
 
 ## Usage
@@ -12,26 +12,8 @@ It's only for local development, please don't use it in a server environment (EC
 Do you want to change the document root under `app` directory?  
 In that case, copy `/docker/web/conf/default.conf` to any location in your project directory, change the `root` directive, and bind-mount it as `/etc/nginx/conf.d/default.conf`.
 4. Execute the `docker compose up -d` command.
-5. Create an `index.php` file and put `<?php phpinfo();` to file in the `app` directory of your project root, and access `https://localhost:8443` from your browser! (Please ignore the certificate error as it is due to self-certification and continue)
-5. Let's develop it freely!😎
-
-### Self certification SSL error
-
-Want to turn off self-certification error?  
-You can work around this by installing the certificate in your local machine from web container.  
-**This is not recommended as it will dirty the host.**
-
-1. Run ``docker cp `docker-compose ps -q {web_container_service_name}`:/home/{web_user_name}/rootCA.pfx ./`` in project root directory.  
-   If the service name and user name of the container are default, you can run `copy_pfx.sh` instead.
-2. Import the `rootCA.pfx` file created in the project root directory into your browser.
-
-However, this needs to be done for each container, and if the container is destroyed and rebuilt, it needs to be done again.  
-If you want to replace them with certificates you have created yourself, mount them in the web container.  
-
-| type | path |
-| --- | --- |
-| CRT | /etc/nginx/certs/server.crt |
-| KEY | /etc/nginx/certs/server.key |
+5. Create an `index.php` file and put `<?php phpinfo();` to file in the `app` directory of your project root, and access `http://localhost:8080` from your browser!
+6. Let's develop it freely!😎
 
 ## Containers detail
 
@@ -48,8 +30,7 @@ If you want to replace them with certificates you have created yourself, mount t
 - The `app` directory in the project root will be bind mounted as `/var/www/html/app`
 
 ### web
-- Use the official image of Nginx 1.21
-- SSL with self-certificate for localhost is valid (Automatic generation of certificate files by `mkcert`)
+- Use the official image of Nginx 1.23
 - Cooperation with php-fpm container is valid (Communicate with php-fpm on TCP port 9000)
 - If you want to change nginx settings, bind mount any `default.conf` to `/etc/nginx/conf.d/default.conf`, `nginx.conf` to `/etc/nginx/nginx.conf`
 - The `app` directory in the project root will be bind mounted as `/var/www/html/app` (This is the default document root)

@@ -1,4 +1,4 @@
-FROM nginx:1.21
+FROM nginx:1.23
 LABEL maintainer="AppleNectar"
 
 SHELL [ "/bin/bash", "-oeux", "pipefail", "-c" ]
@@ -18,14 +18,11 @@ RUN apt-get update \
     && apt-get -y upgrade  \
     && apt-get -y install \
         wget \
-        libnss3-tools \
         zip \
         unzip \
         locales \
     && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* \
-    && wget -O /usr/bin/mkcert https://github.com/FiloSottile/mkcert/releases/download/v1.4.3/mkcert-v1.4.3-linux-amd64 \
-    && chmod +x /usr/bin/mkcert
+    && rm -rf /var/lib/apt/lists/*
 
 # OS language setting
 RUN sed -i -E "s/# (${CONTAINERS_LANG})/\1/" /etc/locale.gen \
@@ -41,20 +38,6 @@ RUN groupadd -g ${WEB_USER_GID} ${WEB_USER_GROUP} \
     && chown -R ${WEB_USER_NAME}:${WEB_USER_GROUP} /var/www/html \
     && chmod 775 /var/www/html/app
 
-# Make self-certificate files and DH key parameter file for localhost
-# * Want to get a browser certificate warning?
-#   1. Execute command: docker compose cp web:/home/dev/rootCA.pfx ./
-#   2. Install rootCA.pfx created in the project root on the system that uses the browser.
-RUN mkcert -install \
-    && cd /root/.local/share/mkcert/ \
-    && openssl pkcs12 -export -inkey rootCA-key.pem -in rootCA.pem -out rootCA.pfx -passin pass:"" -passout pass:"" \
-    && cp rootCA.pfx /home/${WEB_USER_NAME}/ \
-    && chown ${WEB_USER_NAME}:${WEB_USER_GROUP} /home/${WEB_USER_NAME}/rootCA.pfx \
-    && mkdir /etc/nginx/certs \
-    && mkcert -cert-file /etc/nginx/certs/server.crt -key-file /etc/nginx/certs/server.key localhost 127.0.0.1 \
-    && openssl dhparam -out /etc/nginx/certs/dhparam.pem 2048 \
-    && chown -R ${WEB_USER_NAME}:${WEB_USER_GROUP} /etc/nginx/certs
-
 ## Copy nginx server config
 COPY conf/default.conf /etc/nginx/conf.d/
 
@@ -67,7 +50,6 @@ COPY conf/default.conf /etc/nginx/conf.d/
 # - Change fast cgi buffer size
 # - Change keppalive timeout
 RUN NGINX_CONF_PATH=/etc/nginx/nginx.conf \
-    # && sed -i -e "/^user /s/nginx/${WEB_USER_NAME}/g" ${NGINX_CONF_PATH} \
     && sed -i -e "/^user/s/user/#user/g" ${NGINX_CONF_PATH} \
     && sed -i -e 's/"$http_user_agent"/"$http_user_agent" "$host"/g' ${NGINX_CONF_PATH} \
     && sed -i -e "/^http {/a \    server_tokens off;" ${NGINX_CONF_PATH} \
