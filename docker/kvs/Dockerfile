@@ -9,9 +9,8 @@ ARG REDIS_AUTH_PASS
 ENV TZ ${CONTAINERS_TIMEZONE}
 ENV REDIS_AUTH_PASS ${REDIS_AUTH_PASS}
 
-# Package update and install
+# Package install
 RUN apt-get update \
-    && apt-get -y upgrade  \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 

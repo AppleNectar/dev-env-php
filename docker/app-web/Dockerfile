@@ -14,9 +14,8 @@ ARG ENABLE_XDBUG
 
 ENV TZ ${CONTAINERS_TIMEZONE}
 
-# Package update and install
+# Package install
 RUN apt-get update \
-    && apt-get -y upgrade  \
     && apt-get -y install \
         wget \
         git \

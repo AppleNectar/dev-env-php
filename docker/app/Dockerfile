@@ -17,9 +17,8 @@ ENV TZ ${CONTAINERS_TIMEZONE}
 # Install composer
 COPY --from=composer:2.2 /usr/bin/composer /usr/bin/composer
 
-# Package update and install
+# Package install
 RUN apt-get update \
-    && apt-get -y upgrade  \
     && apt-get -y install \
         git \
         libonig-dev \

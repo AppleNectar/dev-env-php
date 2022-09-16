@@ -13,9 +13,8 @@ ARG WEB_USER_SHELL
 
 ENV TZ ${CONTAINERS_TIMEZONE}
 
-# Package update and install
+# Package install
 RUN apt-get update \
-    && apt-get -y upgrade  \
     && apt-get -y install \
         wget \
         zip \
