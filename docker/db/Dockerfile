@@ -7,11 +7,13 @@ ARG CONTAINERS_TIMEZONE
 
 ENV TZ ${CONTAINERS_TIMEZONE}
 
-# Package update and install
-RUN apt-get update \
-    && apt-get -y upgrade  \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+# Create log files
+RUN mkdir /var/log/mysql \
+    && touch /var/log/mysql/general.log \
+    && touch /var/log/mysql/slow.log \
+    && touch /var/log/mysql/error.log \
+    && chown -R mysql:mysql /var/log/mysql \
+    && chmod -R 774 /var/log/mysql
 
 RUN echo "use mysql;" > /docker-entrypoint-initdb.d/0_timezone.sql \
     && mysql_tzinfo_to_sql /usr/share/zoneinfo >> /docker-entrypoint-initdb.d/0_timezone.sql
