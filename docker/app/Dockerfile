@@ -1,4 +1,4 @@
-FROM php:8.1-fpm-bullseye
+FROM php:8.2-fpm-bullseye
 LABEL maintainer="AppleNectar"
 
 SHELL [ "/bin/bash", "-oeux", "pipefail", "-c" ]
@@ -10,7 +10,7 @@ ARG WEB_USER_UID
 ARG WEB_USER_GROUP
 ARG WEB_USER_GID
 ARG WEB_USER_SHELL
-ARG ENABLE_XDBUG
+ARG ENABLE_XDEBUG
 
 ENV TZ ${CONTAINERS_TIMEZONE}
 
@@ -53,6 +53,7 @@ RUN groupadd -g ${WEB_USER_GID} ${WEB_USER_GROUP} \
 # * Instead, set listen.group to the group of the executing user.
 RUN cp -i /usr/local/etc/php/php.ini-development /usr/local/etc/php/php.ini \
     && sed -i -e "s|^;date.timezone =|date.timezone = ${CONTAINERS_TIMEZONE}|g" /usr/local/etc/php/php.ini \
+    && sed -i -e "s|^;error_log = syslog|error_log = /dev/stderr|g" /usr/local/etc/php/php.ini \
     && sed -i -e "/^user = /s/user/;user/g" /usr/local/etc/php-fpm.d/www.conf \
     && sed -i -e "/^group = /s/group/;group/g" /usr/local/etc/php-fpm.d/www.conf \
     && cp -i /usr/local/etc/php-fpm.d/www.conf /usr/local/etc/php-fpm.d/zzz-www.conf \
@@ -77,7 +78,7 @@ RUN pecl install redis \
     && echo 'extension=redis.so' > /usr/local/etc/php/conf.d/phpredis.ini
 
 # Install xdebug
-RUN if ${ENABLE_XDBUG}; then \
+RUN if ${ENABLE_XDEBUG}; then \
         pecl install xdebug; \
         docker-php-ext-enable xdebug; \
         touch /var/log/xdebug.log; \

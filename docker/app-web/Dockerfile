@@ -1,4 +1,4 @@
-FROM php:8.1-apache-bullseye
+FROM php:8.2-apache-bullseye
 LABEL maintainer="AppleNectar"
 
 SHELL [ "/bin/bash", "-oeux", "pipefail", "-c" ]
@@ -10,7 +10,7 @@ ARG WEB_USER_UID
 ARG WEB_USER_GROUP
 ARG WEB_USER_GID
 ARG WEB_USER_SHELL
-ARG ENABLE_XDBUG
+ARG ENABLE_XDEBUG
 
 ENV TZ ${CONTAINERS_TIMEZONE}
 
@@ -84,7 +84,7 @@ RUN pecl install redis \
     && echo 'extension=redis.so' > /usr/local/etc/php/conf.d/phpredis.ini
 
 # Install xdebug
-RUN if ${ENABLE_XDBUG}; then \
+RUN if ${ENABLE_XDEBUG}; then \
         pecl install xdebug; \
         docker-php-ext-enable xdebug; \
         touch /var/log/xdebug.log; \

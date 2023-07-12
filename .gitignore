@@ -3,4 +3,5 @@
 /app
 /container-conf
 docker-compose.override.yml
+compose.*.yml
 rootCA.pfx

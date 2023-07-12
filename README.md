@@ -23,7 +23,7 @@ In that case, copy `/docker/web/conf/default.conf` to any location in your proje
 
 ### app
 
-- Use the official image of PHP 8.1
+- Use the official image of PHP 8.2.8
 - Xdebug extension is valid (Listen on port `9003` | Default ide key `IDEKEY` | Start with request trigger)
 - PHP's extension that Laravel depends on is installed
 - Composer is installed in system global (from composer official image)
@@ -33,7 +33,7 @@ In that case, copy `/docker/web/conf/default.conf` to any location in your proje
 
 ### web
 
-- Use the official image of Nginx 1.23
+- Use the official image of Nginx 1.25
 - Cooperation with php-fpm container is valid (Communicate with php-fpm on TCP port 9000)
 - If you want to change nginx settings, bind mount any `default.conf` to `/etc/nginx/conf.d/default.conf`, `nginx.conf` to `/etc/nginx/nginx.conf`
 - The `app` directory in the project root will be bind mounted as `/var/www/html/app` (This is the default document root)
@@ -46,7 +46,7 @@ In that case, copy `/docker/web/conf/default.conf` to any location in your proje
 
 ### kvs
 
-- Use the official image of redis 6.2
+- Use the official image of redis 7.0
 - This container does not persist data
 
 ### smtp

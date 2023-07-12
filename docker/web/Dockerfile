@@ -1,4 +1,4 @@
-FROM nginx:1.23
+FROM nginx:1.25
 LABEL maintainer="AppleNectar"
 
 SHELL [ "/bin/bash", "-oeux", "pipefail", "-c" ]

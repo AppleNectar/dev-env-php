@@ -1,0 +1,5 @@
+app/
+container-conf/
+.env.example
+LICENSE.txt
+README.md

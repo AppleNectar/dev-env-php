@@ -1,4 +1,4 @@
-FROM redis:6.2-bullseye
+FROM redis:7.0-bullseye
 LABEL maintainer="AppleNectar"
 
 SHELL [ "/bin/bash", "-oeux", "pipefail", "-c" ]
