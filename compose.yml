@@ -72,7 +72,7 @@ services:
   
   db:
     build:
-      context: ./docker/db
+      context: docker/db-mysql
       args:
         CONTAINERS_TIMEZONE: ${CONTAINERS_TIMEZONE}
     environment:
