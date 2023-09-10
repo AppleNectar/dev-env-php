@@ -92,8 +92,14 @@ services:
       context: ./docker/postgres
       args:
         CONTAINERS_TIMEZONE: ${CONTAINERS_TIMEZONE}
-        DB_LOCALE: ${DB_LOCALE}
-    command: postgres -c log_destination=stderr -c log_statement=all -c log_connections=on -c log_disconnections=on
+        CONTAINERS_LANG: ${CONTAINERS_LANG}
+    command: >
+      postgres
+      -c log_destination=stderr
+      -c log_statement=all
+      -c log_connections=on
+      -c log_disconnections=on
+      -c log_min_duration_statement=1000
     environment:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
