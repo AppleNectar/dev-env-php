@@ -40,9 +40,9 @@ In that case, copy `/docker/web/conf/default.conf` to any location in your proje
 
 ### db
 
-- Use the official image of MySQL 8.0
-- The root password, initial database name, default username, and user password are passed to the container as environment variables (The actual values are defined in the .env file)
-- The data is persisted by `mysql-data` volume
+- Use the official image of Postgres 15.4
+- The initial database name, default username, and user password are passed to the container as environment variables (The actual values are defined in the .env file)
+- The data is persisted by `postgres-data` volume
 
 ### kvs
 

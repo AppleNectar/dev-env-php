@@ -1,8 +1,6 @@
 volumes:
   postgres-data:
     driver: local
-#  mysql-data:
-#    driver: local
   mail-data:
     driver: local
 
@@ -89,7 +87,7 @@ services:
 
   db:
     build:
-      context: ./docker/postgres
+      context: ./docker/db
       args:
         CONTAINERS_TIMEZONE: ${CONTAINERS_TIMEZONE}
         CONTAINERS_LANG: ${CONTAINERS_LANG}
@@ -120,33 +118,6 @@ services:
       options:
         max-size: ${LOG_MAX_SIZE:-10m}
         max-file: ${LOG_MAX_FILE:-5}
-
-#  db:
-#    build:
-#      context: docker/db-mysql
-#      args:
-#        CONTAINERS_TIMEZONE: ${CONTAINERS_TIMEZONE}
-#    environment:
-#      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-#      MYSQL_USER: ${DB_USER}
-#      MYSQL_PASSWORD: ${DB_PASSWORD}
-#      MYSQL_DEFAULT_DB: ${DB_DATABASE}
-#    ports:
-#      - target: 3306
-#        published: 3306
-#        protocol: tcp
-#        mode: host
-#    volumes:
-#      - type: volume
-#        source: mysql-data
-#        target: /var/lib/mysql
-#        volume:
-#          nocopy: true
-#    logging:
-#      driver: json-file
-#      options:
-#        max-size: ${LOG_MAX_SIZE:-10m}
-#        max-file: ${LOG_MAX_FILE:-5}
 
   kvs:
     build:
