@@ -1,6 +1,7 @@
 .env
 /.idea
 /app
+/.config
 /container-conf
 docker-compose.override.yml
 compose.*.yml

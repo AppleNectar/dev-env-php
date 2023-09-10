@@ -1,6 +1,8 @@
 volumes:
-  mysql-data:
+  postgres-data:
     driver: local
+#  mysql-data:
+#    driver: local
   mail-data:
     driver: local
 
@@ -69,28 +71,61 @@ services:
         target: /var/www/html/app
     depends_on:
       - app
-  
+
   db:
     build:
-      context: docker/db-mysql
+      context: ./docker/postgres
       args:
         CONTAINERS_TIMEZONE: ${CONTAINERS_TIMEZONE}
+        DB_LOCALE: ${DB_LOCALE}
+    command: postgres -c log_destination=stderr -c log_statement=all -c log_connections=on -c log_disconnections=on
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      MYSQL_DEFAULT_DB: ${MYSQL_DEFAULT_DB}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_DATABASE}
     ports:
-      - target: 3306
-        published: 3306
+      - target: 5432
+        published: 5432
         protocol: tcp
         mode: host
     volumes:
       - type: volume
-        source: mysql-data
-        target: /var/lib/mysql
+        source: postgres-data
+        target: /var/lib/postgresql/data
         volume:
           nocopy: true
+    logging:
+      driver: json-file
+      options:
+        max-size: ${LOG_MAX_SIZE:-10m}
+        max-file: ${LOG_MAX_FILE:-5}
+
+#  db:
+#    build:
+#      context: docker/db-mysql
+#      args:
+#        CONTAINERS_TIMEZONE: ${CONTAINERS_TIMEZONE}
+#    environment:
+#      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+#      MYSQL_USER: ${DB_USER}
+#      MYSQL_PASSWORD: ${DB_PASSWORD}
+#      MYSQL_DEFAULT_DB: ${DB_DATABASE}
+#    ports:
+#      - target: 3306
+#        published: 3306
+#        protocol: tcp
+#        mode: host
+#    volumes:
+#      - type: volume
+#        source: mysql-data
+#        target: /var/lib/mysql
+#        volume:
+#          nocopy: true
+#    logging:
+#      driver: json-file
+#      options:
+#        max-size: ${LOG_MAX_SIZE:-10m}
+#        max-file: ${LOG_MAX_FILE:-5}
 
   kvs:
     build:
