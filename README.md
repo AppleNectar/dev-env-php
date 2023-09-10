@@ -1,9 +1,9 @@
 # Docker environment for PHP application
 
 Docker container stack for a web service development using PHP.  
-The stack consists of Nginx / php-fpm / MySQL / Redis, each container is based on Debian.  
-It also includes an Apache (with mod_php) container, so you can use Apache by changing the configuration.  
-It's only for local development, please don't use it in a server environment (EC2, ECS, etc.).
+The stack consists of Nginx / php-fpm / Postgres / Redis, each container is based on Debian.  
+When using it in a non-local environment, please set appropriate environment variables on the host without using `.env`.  
+Also, it is better to change the application code so that it is installed when creating the image instead of being shared by mounting.
 
 ## Usage
 
