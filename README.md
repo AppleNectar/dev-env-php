@@ -3,7 +3,7 @@
 Docker container stack for a web service development using PHP.  
 The stack consists of Nginx / php-fpm / MySQL / Redis, each container is based on Debian.  
 It also includes an Apache (with mod_php) container, so you can use Apache by changing the configuration.  
-It's only for local development, please don't use it in a server environment (EC2, ECS, etc).
+It's only for local development, please don't use it in a server environment (EC2, ECS, etc.).
 
 ## Usage
 
@@ -24,7 +24,7 @@ In that case, copy `/docker/web/conf/default.conf` to any location in your proje
 ### app
 
 - Use the official image of PHP 8.2.8
-- Xdebug extension is valid (Listen on port `9003` | Default ide key `IDEKEY` | Start with request trigger)
+- Xdebug's extension is valid (Listen on port `9003` | Default ide key `IDEKEY` | Start with request trigger)
 - PHP's extension that Laravel depends on is installed
 - Composer is installed in system global (from composer official image)
 - If you want to change php settings, bind mount any `php.ini` to `/usr/local/etc/php/php.ini`
@@ -57,13 +57,15 @@ In that case, copy `/docker/web/conf/default.conf` to any location in your proje
 
 ### app-web (Optional)
 
-- It is a container for both web and app using the official php container (Apache/PHP 8.1).
-- To use, comment out `app` and `web` from `services` in `docker-compose.yml` and uncomment `app-web` to enable it.
-- Xdebug extension is valid (Listen on port `9003` | Default ide key `IDEKEY` | Start with request trigger)
-- PHP's extension that Laravel depends on is installed
-- Composer is installed in system global (from composer official image)
-- If you want to change php settings, bind mount any `php.ini` to `/usr/local/etc/php/php.ini`
-- The `app` directory in the project root will be bind mounted as `/var/www/html/app`
+This has been abolition.
+
+- ~~It is a container for both web and app using the official php container (Apache/PHP 8.1).~~
+- ~~To use, comment out `app` and `web` from `services` in `docker-compose.yml` and uncomment `app-web` to enable it.~~
+- ~~Xdebug's extension is valid (Listen on port `9003` | Default ide key `IDEKEY` | Start with request trigger)~~
+- ~~PHP's extension that Laravel depends on is installed~~
+- ~~Composer is installed in system global (from composer official image)~~
+- ~~If you want to change php settings, bind mount any `php.ini` to `/usr/local/etc/php/php.ini`~~
+- ~~The `app` directory in the project root will be bind mounted as `/var/www/html/app`~~
 
 ## License
 
