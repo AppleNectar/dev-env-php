@@ -66,9 +66,9 @@ RUN NGINX_CONF_PATH=/etc/nginx/nginx.conf \
     && chown -R ${WEB_USER_NAME}:${WEB_USER_GROUP} /var/run/nginx.pid
 
 # Install node.js
-COPY --from=node:lts-buster-slim /usr/local/bin /usr/local/bin
-COPY --from=node:lts-buster-slim /usr/local/lib /usr/local/lib
-COPY --from=node:lts-buster-slim /opt /opt
+COPY --from=node:lts-bullseye-slim /usr/local/bin /usr/local/bin
+COPY --from=node:lts-bullseye-slim /usr/local/lib /usr/local/lib
+COPY --from=node:lts-bullseye-slim /opt /opt
 
 USER ${WEB_USER_NAME}
 
