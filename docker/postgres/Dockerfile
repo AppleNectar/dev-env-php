@@ -3,11 +3,14 @@ LABEL maintainer="AppleNectar"
 
 SHELL [ "/bin/bash", "-oeux", "pipefail", "-c" ]
 
+ARG CONTAINERS_LANG
 ARG CONTAINERS_TIMEZONE
-ARG DB_LOCALE
 
 ENV TZ ${CONTAINERS_TIMEZONE}
 
-RUN localedef -i ${DB_LOCALE} -c -f UTF-8 -A /usr/share/locale/locale.alias ${DB_LOCALE}.UTF-8
+# OS language setting
+RUN sed -i -E "s/# (${CONTAINERS_LANG})/\1/" /etc/locale.gen \
+    && locale-gen ${CONTAINERS_LANG} \
+    && update-locale LANG=${CONTAINERS_LANG}
 
-ENV LANG ${DB_LOCALE}.UTF-8
+ENV LC_ALL ${CONTAINERS_LANG}
