@@ -23,7 +23,7 @@ In that case, copy `/docker/web/conf/default.conf` to any location in your proje
 
 ### app
 
-- Use the official image of PHP 8.2.8
+- Use the official image of PHP 8.2
 - Xdebug's extension is valid (Listen on port `9003` | Default ide key `IDEKEY` | Start with request trigger)
 - PHP's extension that Laravel depends on is installed
 - Composer is installed in system global (from composer official image)
